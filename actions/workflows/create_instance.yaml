@@ -1,0 +1,22 @@
+# Action chain to orchestrate task and workflow from different packs.
+chain:
+  -
+    # Look up info about requester (from chatops) in Slack
+    name: "get_user"
+    ref: "slack.users_filter_by"
+    params:
+      attributes:
+        # Strip leading ``@`` from the user name
+        name: "{{ action_context.parent.api_user|replace('@', '', 1) }}"
+    # Go to next step if user has been found
+    on-success: "run_instance"
+  -
+    name: "run_instance"
+    ref: "aws_boto3.create_instance"
+    params:
+      # Pass through parameters from action alias execution
+      ImageId: "{{ImageId}}"
+      KeyName: "{{KeyName}}"
+      Tags:
+        # Mark instance as owned by the requester (put email in the ``Owner`` tag)
+        - Owner: "{{get_user.result[0].profile.email}}"

@@ -1,0 +1,13 @@
+---
+ref: infra
+name: infra
+description: Infrastructure on demand (example pack)
+keywords:
+  - AWS
+  - EC2
+
+version: 0.1.1
+author: Denys Havrysh
+email: denys.gavrysh@gmail.com
+contributors:
+  - Denys Havrysh <denys.gavrysh@gmail.com>

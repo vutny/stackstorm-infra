@@ -1,0 +1,12 @@
+---
+name: "create_instance"
+pack: "infra"
+action_ref: "infra.create_instance"
+description: "Create EC2 instance with GNU/Linux (Ubuntu 18 by default)"
+formats:
+  - "please create instance( from {{ImageId=ami-0b425589c7bb7663d}})?( with {{KeyName}} key)?"
+result:
+  format: |-
+      {%- set instance = execution.result.tasks[1].result.tasks[0].result.result.Instances[0] %}
+      Thanks for your patience!
+      I have created new instance for you: `{{instance.InstanceId}}` (`{{instance.PrivateIpAddress}}`).

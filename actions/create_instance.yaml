@@ -1,0 +1,25 @@
+# Action definition to call ``create_instance`` workflow with parameters
+---
+name: "create_instance"
+pack: "infra"
+runner_type: "action-chain"
+description: "Create EC2 instance and assign tags"
+enabled: true
+entry_point: "workflows/create_instance.yaml"
+parameters:
+  ImageId:
+    type: "string"
+    description: "AMI ID to create an instance from"
+    # Image ID is mandatory, but the default value will be substituted from the action alias
+    required: true
+  KeyName:
+    type: "string"
+    description: "EC2 keypair name for public SSH key to install on an instance"
+    required: false
+    # Empty key pair name means no key
+    default: ""
+  skip_notify:
+    # Do not notify about each task execution details
+    default:
+      - "get_user"
+      - "run_instance"
